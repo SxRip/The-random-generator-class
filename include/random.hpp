@@ -2,6 +2,8 @@
 #include <random>
 #include <limits>
 
+#pragma warning(disable : 4244)
+
 class random
 {
 public:
@@ -41,7 +43,11 @@ public:
 	inline int get_int() noexcept { return _randomGeneratorINT(_mtValues); }
 
 	inline DLONG max() const noexcept { return _randomGeneratorDLONG.max(); }
+	inline double max_double() const noexcept { return _randomGeneratorDOUBLE.max(); }
+
 	inline DLONG min() const noexcept { return _randomGeneratorDLONG.min(); }
+	inline double min_double() const noexcept { return _randomGeneratorDOUBLE.min(); }
+
 	inline std::pair<DLONG, DLONG> minmax() const noexcept
 	{
 		return { _randomGeneratorDLONG.min(), _randomGeneratorDLONG.max() };
