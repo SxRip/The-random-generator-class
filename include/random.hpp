@@ -28,11 +28,12 @@ public:
 		_randomGeneratorDLONG{ limitsDLONG::min(), limitsDLONG::max() }
 	{}
 
-	random(DLONG from, DLONG to)
+	template <class value_type>
+	random(value_type from, value_type to)
 		: _mtValues(_randomDevice()), _mtValues64(_randomDevice()),
-		_randomGeneratorDOUBLE{ static_cast<double>(from), static_cast<double>(to) },
-		_randomGeneratorINT{ static_cast<int>(from), static_cast<int>(to) },
-		_randomGeneratorDLONG{ from, to }
+		_randomGeneratorINT{ from, to },
+		_randomGeneratorDLONG{ from, to },
+		_randomGeneratorDOUBLE{ from, to }
 	{}
 
 	inline DLONG get_longlong() noexcept { return _randomGeneratorDLONG(_mtValues64); }
@@ -46,24 +47,26 @@ public:
 		return { _randomGeneratorDLONG.min(), _randomGeneratorDLONG.max() };
 	};
 
-	inline void set_range(DLONG from, DLONG to)
+	template <class value_type>
+	inline void set_range(value_type from, value_type to) noexcept
 	{
 		if (from > to)
 			std::swap(from, to);
 
-		distributionDOUBLE newRandGenDOUBLE{ static_cast<double>(from),
-			static_cast<double>(to) };
-
-		distributionINT newRandGenINT{ static_cast<int>(from), static_cast<int>(to) };
-
-		distributionDLONG newRandGenDLONG{ from, to };
-
-		_randomGeneratorDOUBLE = newRandGenDOUBLE;
-		_randomGeneratorINT = newRandGenINT;
-		_randomGeneratorDLONG = newRandGenDLONG;
+		_change_distribution_range(_randomGeneratorDOUBLE, from, to);
+		_change_distribution_range(_randomGeneratorINT, from, to);
+		_change_distribution_range(_randomGeneratorDLONG, from, to);
 	}
 
 private:
+
+	template<class distribution, class value_type>
+	void _change_distribution_range(distribution& distributionObj,
+		value_type from, value_type to)
+	{
+		distributionObj.param(distribution::param_type(from, to));
+	}
+
 	std::random_device _randomDevice;
 	std::mt19937 _mtValues;
 	std::mt19937_64 _mtValues64;

@@ -4,7 +4,9 @@
 int main()
 {
 	//Values range constructor
-	random rand(0, 10);
+	random rand(0.1, 0.2);
+
+	rand.set_range(0.1, 0.9);
 
 	std::cout << "------ the generation range from " << rand.min() <<
 		" to " << rand.max() << " ------" << std::endl;
@@ -18,7 +20,7 @@ int main()
 	std::cout << "Random value of double type:\t" << rand.get_double() << std::endl;
 	std::cout << "Random value of long long type:\t" << rand.get_longlong() << std::endl;
 
-	rand.set_range(0, 1000);
+	rand.set_range(1, 2);
 
 	std::cout << std::endl;
 	std::cout << "------ the generation range from " << rand.min() <<
