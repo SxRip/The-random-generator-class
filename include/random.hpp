@@ -1,7 +1,6 @@
 #pragma once
+#define NOMINMAX
 #include <random>
-#include <limits>
-
 #pragma warning(disable : 4244)
 
 class random
