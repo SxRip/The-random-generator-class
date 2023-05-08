@@ -1,5 +1,14 @@
 #pragma once
-#define NOMINMAX
+
+#ifndef _RANDOM_LIB_
+#define _RANDOM_LIB_
+
+#if defined(_MINWINDEF_) && (defined(min) || defined(max))
+#undef min
+#undef max
+#define _UNDEFINED_MIN_MAX
+#endif
+
 #include <random>
 #pragma warning(disable : 4244)
 
@@ -80,3 +89,9 @@ private:
 	distributionINT _randomGeneratorINT;
 	distributionDLONG _randomGeneratorDLONG;
 };
+
+#ifdef _UNDEFINED_MIN_MAX
+#define min
+#define max
+#endif // _UNDEFINED_MIN_MAX
+#endif // !_RANDOM_LIB_
